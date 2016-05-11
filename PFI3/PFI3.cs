@@ -73,11 +73,11 @@ namespace PFI3
         {
             _réponseOpt = -(1 / 3) * Math.Pow((x - 6), 2) + 12;
         }
-        public void CalculeOpt1(double x)
+        public void CalculeOpt4(double x)
         {
             _réponseOpt = x + Math.Sin(x);
         }
-        public void CalculeOpt1(double x)
+        public void CalculeOpt5(double x)
         {
             _réponseOpt = Math.Cos(x) + 3;
         }

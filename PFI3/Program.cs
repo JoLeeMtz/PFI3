@@ -16,7 +16,7 @@ namespace PFI3
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PFI3());
+            Application.Run(new Menu());
         }
     }
 }
