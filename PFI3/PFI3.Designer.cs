@@ -133,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 215);
+            this.ClientSize = new System.Drawing.Size(386, 215);
             this.Controls.Add(this.NUD_yMax);
             this.Controls.Add(this.NUD_b);
             this.Controls.Add(this.NUD_a);

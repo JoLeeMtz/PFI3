@@ -8,6 +8,7 @@ namespace PFI3
 {
     class Points
     {
+        public static const int NB_MAXIMUM_POINTS = 10000;
         private int _x;
         private int _y;
 
