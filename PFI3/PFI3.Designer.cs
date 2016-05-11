@@ -37,10 +37,13 @@
             this.BTN_CalculerAire = new System.Windows.Forms.Button();
             this.NUD_a = new System.Windows.Forms.NumericUpDown();
             this.NUD_b = new System.Windows.Forms.NumericUpDown();
-            this.NUD_yMax = new System.Windows.Forms.NumericUpDown();
+            this.PB_Graph = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.LAB_Pi = new System.Windows.Forms.Label();
+            this.LAB_YMax = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_yMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Graph)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -111,30 +114,78 @@
             // NUD_a
             // 
             this.NUD_a.Location = new System.Drawing.Point(59, 40);
+            this.NUD_a.Maximum = new decimal(new int[] {
+            11,
+            0,
+            0,
+            0});
             this.NUD_a.Name = "NUD_a";
             this.NUD_a.Size = new System.Drawing.Size(70, 20);
             this.NUD_a.TabIndex = 6;
+            this.NUD_a.ValueChanged += new System.EventHandler(this.NUD_a_ValueChanged);
             // 
             // NUD_b
             // 
             this.NUD_b.Location = new System.Drawing.Point(59, 66);
+            this.NUD_b.Maximum = new decimal(new int[] {
+            11,
+            0,
+            0,
+            0});
             this.NUD_b.Name = "NUD_b";
             this.NUD_b.Size = new System.Drawing.Size(70, 20);
             this.NUD_b.TabIndex = 6;
+            this.NUD_b.Value = new decimal(new int[] {
+            11,
+            0,
+            0,
+            0});
+            this.NUD_b.ValueChanged += new System.EventHandler(this.NUD_b_ValueChanged);
             // 
-            // NUD_yMax
+            // PB_Graph
             // 
-            this.NUD_yMax.Location = new System.Drawing.Point(59, 92);
-            this.NUD_yMax.Name = "NUD_yMax";
-            this.NUD_yMax.Size = new System.Drawing.Size(70, 20);
-            this.NUD_yMax.TabIndex = 6;
+            this.PB_Graph.Location = new System.Drawing.Point(159, 12);
+            this.PB_Graph.Name = "PB_Graph";
+            this.PB_Graph.Size = new System.Drawing.Size(215, 100);
+            this.PB_Graph.TabIndex = 7;
+            this.PB_Graph.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(159, 124);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(22, 13);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "Pi :";
+            // 
+            // LAB_Pi
+            // 
+            this.LAB_Pi.AutoSize = true;
+            this.LAB_Pi.Location = new System.Drawing.Point(187, 124);
+            this.LAB_Pi.Name = "LAB_Pi";
+            this.LAB_Pi.Size = new System.Drawing.Size(0, 13);
+            this.LAB_Pi.TabIndex = 9;
+            // 
+            // LAB_YMax
+            // 
+            this.LAB_YMax.AutoSize = true;
+            this.LAB_YMax.Location = new System.Drawing.Point(59, 93);
+            this.LAB_YMax.Name = "LAB_YMax";
+            this.LAB_YMax.Size = new System.Drawing.Size(35, 13);
+            this.LAB_YMax.TabIndex = 10;
+            this.LAB_YMax.Text = "label7";
             // 
             // PFI3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 215);
-            this.Controls.Add(this.NUD_yMax);
+            this.Controls.Add(this.LAB_YMax);
+            this.Controls.Add(this.LAB_Pi);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.PB_Graph);
             this.Controls.Add(this.NUD_b);
             this.Controls.Add(this.NUD_a);
             this.Controls.Add(this.BTN_CalculerAire);
@@ -149,7 +200,7 @@
             this.Load += new System.EventHandler(this.PFI3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_yMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Graph)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,7 +217,10 @@
         private System.Windows.Forms.Button BTN_CalculerAire;
         private System.Windows.Forms.NumericUpDown NUD_a;
         private System.Windows.Forms.NumericUpDown NUD_b;
-        private System.Windows.Forms.NumericUpDown NUD_yMax;
+        private System.Windows.Forms.PictureBox PB_Graph;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LAB_Pi;
+        private System.Windows.Forms.Label LAB_YMax;
     }
 }
 

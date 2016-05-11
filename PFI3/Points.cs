@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PFI3
 {
-    class Points
+    public class Points
     {
         public const int NB_MAXIMUM_POINTS = 10000;
         private int _x;
@@ -29,7 +29,7 @@ namespace PFI3
         {
            _r = new Random();
            _x = _r.Next(_a, _b + 1);
-           _y = _r.Next(_a, _max + 1);
+           _y = _r.Next(0, _max + 1);
         }
 
         // Retourne le Point X
