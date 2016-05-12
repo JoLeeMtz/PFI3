@@ -55,17 +55,17 @@ namespace PFI3
         }
         private void PFI3_Load(object sender, EventArgs e)
         {
-            LAB_Pi.Text = Estimer();
+            LAB_p.Text = Estimer();
         }
 
         private void NUD_a_ValueChanged(object sender, EventArgs e)
         {
-            LAB_Pi.Text = Estimer();
+            LAB_p.Text = Estimer();
         }
         private void NUD_b_ValueChanged(object sender, EventArgs e)
         {
             NUD_a.Maximum = NUD_b.Value;
-            LAB_Pi.Text = Estimer();
+            LAB_p.Text = Estimer();
         }
 
         #region Calculer aire rectangle
@@ -97,25 +97,34 @@ namespace PFI3
         {
             // Pow(x,y) est l'équivalent d'un exposant, x étant le nombre à calculer, y étant l'exposant
             // Ici nous faisons l'équivalent d'une ³√ en faisant x^1/3
-            if (p[1] <= (Math.Pow((Math.Pow(p[0], 2) - 16 * p[0] + 63), (1 / 3)) * -1) + 4)
+            if (p[1] <= (Math.Pow((Math.Pow(p[0], 2d) - 16d * p[0] + 63d), (1d / 3d)) * -1d) + 4d)
                 return true;
             return false;
         }
-        public void CalculeOpt2(double x)
+        public bool CalculeOpt2(int[] p)
         {
-            _réponseOpt = 3 * Math.Pow((x - 7 / 5), 5) - 5 * Math.Pow((x - 7 / 5), 3) + 3;
+            if (p[1] <= 3d * Math.Pow(((p[0] - 7d) / 5d), 5d) - 5d * Math.Pow(((p[0] - 7d) / 5d), 3d) + 3d)
+                return true;
+            return false;
         }
-        public void CalculeOpt3(double x)
+        public bool CalculeOpt3(int[] p)
         {
-            _réponseOpt = -(1 / 3) * Math.Pow((x - 6), 2) + 12;
+            double Line = -1d * (1d / 3d) * Math.Pow((p[0] - 6d), 2d) + 12d;
+            if (p[1] <= Line)
+                return true;
+            return false;
         }
-        public void CalculeOpt4(double x)
+        public bool CalculeOpt4(int[] p)
         {
-            _réponseOpt = x + Math.Sin(x);
+            if (p[1] <= p[0] + Math.Sin(p[0]))
+                return true;
+            return false;
         }
-        public void CalculeOpt5(double x)
+        public bool CalculeOpt5(int[] p)
         {
-            _réponseOpt = Math.Cos(x) + 3;
+            if (p[1] <= Math.Cos(p[0]) + 3d)
+                return true;
+            return false;
         }
         #endregion
 
@@ -142,12 +151,20 @@ namespace PFI3
                             ++Interieur;
                         break;
                     case 2:
+                        if (CalculeOpt2(listePoints[i].GetPoint()))
+                            ++Interieur;
                         break;
                     case 3:
-                        break;
+                        if (CalculeOpt3(listePoints[i].GetPoint()))
+                            ++Interieur;
+                        break;               
                     case 4:
+                        if (CalculeOpt4(listePoints[i].GetPoint()))
+                            ++Interieur;
                         break;
                     case 5:
+                        if (CalculeOpt5(listePoints[i].GetPoint()))
+                            ++Interieur;
                         break;
                     default:
                         MessageBox.Show("Erreur dans le code; Choix fonction");
@@ -167,7 +184,7 @@ namespace PFI3
             // Le pourcentage de l'aire totale sous la courbe
             float p = 0;
 
-            return z * Math.Pow((p * (1 - p) / Points.NB_MAXIMUM_POINTS), 0.5);
+            return z * Math.Pow((p * (1d - p) / Points.NB_MAXIMUM_POINTS), 0.5d);
         }
         #endregion
     }

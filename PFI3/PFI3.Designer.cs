@@ -39,7 +39,7 @@
             this.NUD_b = new System.Windows.Forms.NumericUpDown();
             this.PB_Graph = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.LAB_Pi = new System.Windows.Forms.Label();
+            this.LAB_p = new System.Windows.Forms.Label();
             this.LAB_YMax = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).BeginInit();
@@ -156,17 +156,17 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(159, 124);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(22, 13);
+            this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Pi :";
+            this.label6.Text = "p :";
             // 
-            // LAB_Pi
+            // LAB_p
             // 
-            this.LAB_Pi.AutoSize = true;
-            this.LAB_Pi.Location = new System.Drawing.Point(187, 124);
-            this.LAB_Pi.Name = "LAB_Pi";
-            this.LAB_Pi.Size = new System.Drawing.Size(0, 13);
-            this.LAB_Pi.TabIndex = 9;
+            this.LAB_p.AutoSize = true;
+            this.LAB_p.Location = new System.Drawing.Point(187, 124);
+            this.LAB_p.Name = "LAB_p";
+            this.LAB_p.Size = new System.Drawing.Size(0, 13);
+            this.LAB_p.TabIndex = 9;
             // 
             // LAB_YMax
             // 
@@ -183,7 +183,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 215);
             this.Controls.Add(this.LAB_YMax);
-            this.Controls.Add(this.LAB_Pi);
+            this.Controls.Add(this.LAB_p);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.PB_Graph);
             this.Controls.Add(this.NUD_b);
@@ -219,7 +219,7 @@
         private System.Windows.Forms.NumericUpDown NUD_b;
         private System.Windows.Forms.PictureBox PB_Graph;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label LAB_Pi;
+        private System.Windows.Forms.Label LAB_p;
         private System.Windows.Forms.Label LAB_YMax;
     }
 }
