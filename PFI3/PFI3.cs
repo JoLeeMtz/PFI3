@@ -58,6 +58,16 @@ namespace PFI3
             LAB_Pi.Text = Estimer();
         }
 
+        private void NUD_a_ValueChanged(object sender, EventArgs e)
+        {
+            LAB_Pi.Text = Estimer();
+        }
+        private void NUD_b_ValueChanged(object sender, EventArgs e)
+        {
+            NUD_a.Maximum = NUD_b.Value;
+            LAB_Pi.Text = Estimer();
+        }
+
         #region Calculer aire rectangle
         private void BTN_CalculerAire_Click(object sender, EventArgs e)
         {
@@ -148,15 +158,17 @@ namespace PFI3
         }
         #endregion
 
-        private void NUD_a_ValueChanged(object sender, EventArgs e)
+        #region Calculer la marge d'erreur
+        public double CalculerME()
         {
-            LAB_Pi.Text = Estimer();
-        }
+            // TODO
+            // Le z du tableau de loi normale
+            float z = 0;
+            // Le pourcentage de l'aire totale sous la courbe
+            float p = 0;
 
-        private void NUD_b_ValueChanged(object sender, EventArgs e)
-        {
-            NUD_a.Maximum = NUD_b.Value;
-            LAB_Pi.Text = Estimer();
+            return z * Math.Pow((p * (1 - p) / Points.NB_MAXIMUM_POINTS), 0.5);
         }
+        #endregion
     }
 }
