@@ -41,6 +41,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.LAB_p = new System.Windows.Forms.Label();
             this.LAB_YMax = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.LAB_Me = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.LAB_IC = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Graph)).BeginInit();
@@ -154,7 +158,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(159, 124);
+            this.label6.Location = new System.Drawing.Point(167, 134);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 8;
@@ -163,7 +167,7 @@
             // LAB_p
             // 
             this.LAB_p.AutoSize = true;
-            this.LAB_p.Location = new System.Drawing.Point(187, 124);
+            this.LAB_p.Location = new System.Drawing.Point(208, 134);
             this.LAB_p.Name = "LAB_p";
             this.LAB_p.Size = new System.Drawing.Size(0, 13);
             this.LAB_p.TabIndex = 9;
@@ -177,11 +181,49 @@
             this.LAB_YMax.TabIndex = 10;
             this.LAB_YMax.Text = "label7";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(167, 149);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "ME :";
+            // 
+            // LAB_Me
+            // 
+            this.LAB_Me.AutoSize = true;
+            this.LAB_Me.Location = new System.Drawing.Point(208, 149);
+            this.LAB_Me.Name = "LAB_Me";
+            this.LAB_Me.Size = new System.Drawing.Size(0, 13);
+            this.LAB_Me.TabIndex = 11;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(167, 164);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(23, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "IC :";
+            // 
+            // LAB_IC
+            // 
+            this.LAB_IC.AutoSize = true;
+            this.LAB_IC.Location = new System.Drawing.Point(208, 164);
+            this.LAB_IC.Name = "LAB_IC";
+            this.LAB_IC.Size = new System.Drawing.Size(0, 13);
+            this.LAB_IC.TabIndex = 11;
+            // 
             // PFI3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 215);
+            this.Controls.Add(this.LAB_IC);
+            this.Controls.Add(this.LAB_Me);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.LAB_YMax);
             this.Controls.Add(this.LAB_p);
             this.Controls.Add(this.label6);
@@ -221,6 +263,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label LAB_p;
         private System.Windows.Forms.Label LAB_YMax;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label LAB_Me;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label LAB_IC;
     }
 }
 

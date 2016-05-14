@@ -19,6 +19,10 @@ namespace PFI3
         public int _aireRectangle;
         public double _réponseOpt;
 
+        private double Proportion;
+        private double ME;
+        private String IC;
+
         public List<Points> listePoints;
 
         public PFI3()
@@ -55,17 +59,24 @@ namespace PFI3
         }
         private void PFI3_Load(object sender, EventArgs e)
         {
-            LAB_p.Text = Estimer();
+            Calculer();
         }
 
         private void NUD_a_ValueChanged(object sender, EventArgs e)
         {
-            LAB_p.Text = Estimer();
+            Calculer();
         }
         private void NUD_b_ValueChanged(object sender, EventArgs e)
         {
             NUD_a.Maximum = NUD_b.Value;
+            Calculer();
+        }
+        // Update les Labels proportions, Marge d'erreur et Interval de Confiance
+        private void Calculer()
+        {
             LAB_p.Text = Estimer();
+            LAB_Me.Text = CalculerME();
+            LAB_IC.Text = CalculeIC();
         }
 
         #region Calculer aire rectangle
@@ -129,7 +140,7 @@ namespace PFI3
         #endregion
 
         #region EstimerProportion
-        // Retourne l'aire sous la courbre selon les paramètres (en format string).
+        // Retourne l'aire sous la courbre selon les paramètres (en format string(pour le mettre directement dans le Label)).
         public String Estimer()
         {
             listePoints = new List<Points>();
@@ -171,20 +182,32 @@ namespace PFI3
                         break;
                 }
             }
-            return (Interieur / Points.NB_MAXIMUM_POINTS * 100).ToString() + " %";
+            Proportion = Interieur / Points.NB_MAXIMUM_POINTS * 100d;
+            return Proportion.ToString() + " %";
         }
         #endregion
 
         #region Calculer la marge d'erreur
-        public double CalculerME()
+        public String CalculerME()
         {
             // TODO
             // Le z du tableau de loi normale
-            float z = 0;
+            double z = 0d;
             // Le pourcentage de l'aire totale sous la courbe
-            float p = 0;
+            double p = 0d;
+            ME = z * Math.Pow((p * (1d - p) / Convert.ToDouble(Points.NB_MAXIMUM_POINTS)), 0.5d);
+            return ME.ToString();
+        }
+        #endregion
 
-            return z * Math.Pow((p * (1d - p) / Points.NB_MAXIMUM_POINTS), 0.5d);
+        #region Calcule Interval de Confiance
+        // Calcule l'interval de confiance selon la proportion estimée et la marge d'erreur
+        public String CalculeIC()
+        {
+            double proportion = Convert.ToDouble(Proportion);
+            double Marge = Convert.ToDouble(ME);
+            IC = "[" + (proportion - Marge).ToString() + ";" + (proportion + Marge).ToString() + "]";
+            return IC; 
         }
         #endregion
     }
