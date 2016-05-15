@@ -104,38 +104,27 @@ namespace PFI3
         //TODO VÉRIFIER
         #region Calcule pour les options 1 à 5
         // retourne si le point en paramètre en à l'extérieur ou à l'intérieur de la fonction 1
-        public bool CalculeOpt1(int[] p)
+        public double CalculeOpt1(int x)
         {
             // Pow(x,y) est l'équivalent d'un exposant, x étant le nombre à calculer, y étant l'exposant
             // Ici nous faisons l'équivalent d'une ³√ en faisant x^1/3
-            if (p[1] <= (Math.Pow((Math.Pow(p[0], 2d) - 16d * p[0] + 63d), (1d / 3d)) * -1d) + 4d)
-                return true;
-            return false;
+            return (Math.Pow((Math.Pow(x, 2d) - 16d * x + 63d), (1d / 3d)) * -1d) + 4d;
         }
-        public bool CalculeOpt2(int[] p)
+        public double CalculeOpt2(int x)
         {
-            if (p[1] <= 3d * Math.Pow(((p[0] - 7d) / 5d), 5d) - 5d * Math.Pow(((p[0] - 7d) / 5d), 3d) + 3d)
-                return true;
-            return false;
+            return 3d * Math.Pow(((x - 7d) / 5d), 5d) - 5d * Math.Pow(((x - 7d) / 5d), 3d) + 3d;
         }
-        public bool CalculeOpt3(int[] p)
+        public double CalculeOpt3(int x)
         {
-            double Line = -1d * (1d / 3d) * Math.Pow((p[0] - 6d), 2d) + 12d;
-            if (p[1] <= Line)
-                return true;
-            return false;
+            return -1d * (1d / 3d) * Math.Pow((x - 6d), 2d) + 12d;
         }
-        public bool CalculeOpt4(int[] p)
+        public double CalculeOpt4(int x)
         {
-            if (p[1] <= p[0] + Math.Sin(p[0]))
-                return true;
-            return false;
+            return x + Math.Sin(x);
         }
-        public bool CalculeOpt5(int[] p)
+        public double CalculeOpt5(int x)
         {
-            if (p[1] <= Math.Cos(p[0]) + 3d)
-                return true;
-            return false;
+            return Math.Cos(x) + 3d;
         }
         #endregion
 
@@ -158,23 +147,23 @@ namespace PFI3
                 switch (_optionChoisis)
                 {
                     case 1:
-                        if (CalculeOpt1(listePoints[i].GetPoint()))
+                        if (listePoints[i].GetY() <= CalculeOpt1(listePoints[i].GetX()))
                             ++Interieur;
                         break;
                     case 2:
-                        if (CalculeOpt2(listePoints[i].GetPoint()))
+                        if (listePoints[i].GetY() <= CalculeOpt2(listePoints[i].GetX()))
                             ++Interieur;
                         break;
                     case 3:
-                        if (CalculeOpt3(listePoints[i].GetPoint()))
+                        if (listePoints[i].GetY() <= CalculeOpt3(listePoints[i].GetX()))
                             ++Interieur;
-                        break;               
+                        break;
                     case 4:
-                        if (CalculeOpt4(listePoints[i].GetPoint()))
+                        if (listePoints[i].GetY() <= CalculeOpt4(listePoints[i].GetX()))
                             ++Interieur;
                         break;
                     case 5:
-                        if (CalculeOpt5(listePoints[i].GetPoint()))
+                        if (listePoints[i].GetY() <= CalculeOpt5(listePoints[i].GetX()))
                             ++Interieur;
                         break;
                     default:
@@ -191,12 +180,54 @@ namespace PFI3
         public String CalculerME()
         {
             // TODO
+            // Calculer la moyenne
+            double Moyenne = CalculeMoyenne();
+            // Calculer l'écart type
+            // TODO, DAFUQ is F ? (s = √ (Σ(x - moyenne)² * f)/n)
+            //Calculer Z
             // Le z du tableau de loi normale
             double z = 0d;
             // Le pourcentage de l'aire totale sous la courbe
-            double p = 0d;
+            double p = Proportion / 100d;
             ME = z * Math.Pow((p * (1d - p) / Convert.ToDouble(Points.NB_MAXIMUM_POINTS)), 0.5d);
             return ME.ToString();
+        }
+        // Calculer la moyenne dans l'intervalle selectionné
+        public double CalculeMoyenne()
+        {
+            int Cases = Convert.ToInt32(NUD_b.Value - NUD_a.Value);
+            double[] t = new double[Cases];
+            int pos = 0;
+            for (int i = Convert.ToInt32(NUD_a.Value); i <= Convert.ToInt32(NUD_b.Value); ++i)
+            {
+                switch (_optionChoisis)
+                {
+                    case 1:
+                        t[pos] = CalculeOpt1(i);
+                        break;
+                    case 2:
+                        t[pos] = CalculeOpt2(i);
+                        break;
+                    case 3:
+                        t[pos] = CalculeOpt3(i);
+                        break;
+                    case 4:
+                        t[pos] = CalculeOpt4(i);
+                        break;
+                    case 5:
+                        t[pos] = CalculeOpt5(i);
+                        break;
+                }
+                ++pos;
+            }
+            pos = 0;
+            double Moyenne = 0d;
+            for (int i = 0; i < Cases; ++i)
+            {
+                Moyenne += t[i];
+            }
+            Moyenne = Moyenne / Cases;
+            return Moyenne;
         }
         #endregion
 
@@ -207,7 +238,7 @@ namespace PFI3
             double proportion = Convert.ToDouble(Proportion);
             double Marge = Convert.ToDouble(ME);
             IC = "[" + (proportion - Marge).ToString() + ";" + (proportion + Marge).ToString() + "]";
-            return IC; 
+            return IC;
         }
         #endregion
     }
