@@ -108,7 +108,17 @@ namespace PFI3
         {
             // Pow(x,y) est l'équivalent d'un exposant, x étant le nombre à calculer, y étant l'exposant
             // Ici nous faisons l'équivalent d'une ³√ en faisant x^1/3
-            return (Math.Pow((Math.Pow(x, 2d) - 16d * x + 63d), (1d / 3d)) * -1d) + 4d;
+
+            // (Math.Pow((Math.Pow(x,2d) -16d * x + 63d),(1d/3d)) *-1) +4d
+            double a1 = Math.Pow(x, 2d);
+            double a2 = -16d * x;
+            double a3 = a1 + a2; 
+            double a4 = a3 + 63d;
+            double a5 = Math.Pow(a4, (1d/3d));
+            double a6 = a5 * -1d;
+            double a7 = a6 + 4d;
+            
+            return a7;
         }
         public double CalculeOpt2(int x)
         {
@@ -183,20 +193,32 @@ namespace PFI3
             // Calculer la moyenne
             double Moyenne = CalculeMoyenne();
             // Calculer l'écart type
-            // TODO, DAFUQ is F ? (s = √ (Σ(x - moyenne)² * f)/n)
-            //Calculer Z
+            // (s = √ (Σ(x - moyenne)² * f)/n)
+            double ecart = CalculeEcart(Moyenne);
+            //Calculer Z    
             // Le z du tableau de loi normale
-            double z = 0d;
+            double z = LoiNormale.GetZ(Convert.ToDouble(NUD_IC.Value) / 100d);
             // Le pourcentage de l'aire totale sous la courbe
             double p = Proportion / 100d;
-            ME = z * Math.Pow((p * (1d - p) / Convert.ToDouble(Points.NB_MAXIMUM_POINTS)), 0.5d);
+            ME = Math.Abs(z * (ecart / Math.Sqrt(p)));
             return ME.ToString();
         }
         // Calculer la moyenne dans l'intervalle selectionné
         public double CalculeMoyenne()
         {
-            int Cases = Convert.ToInt32(NUD_b.Value - NUD_a.Value);
-            double[] t = new double[Cases];
+            int Cases = Convert.ToInt32(NUD_b.Value - NUD_a.Value) + 1;
+            double[] t = ValeurYSelonXFonction(Cases);
+            double Moyenne = 0d;
+            for (int i = 0; i < Cases; ++i)
+            {
+                Moyenne += t[i];
+            }
+            Moyenne = Moyenne / Cases;
+            return Moyenne;
+        }
+        //Retourne un tableau de valeurs de y selon x dans la fonction selectionnée (Pas trouver de meilleur nom)
+        private double[] ValeurYSelonXFonction(int NbCases){
+            double[] t = new double[NbCases];
             int pos = 0;
             for (int i = Convert.ToInt32(NUD_a.Value); i <= Convert.ToInt32(NUD_b.Value); ++i)
             {
@@ -220,14 +242,22 @@ namespace PFI3
                 }
                 ++pos;
             }
-            pos = 0;
-            double Moyenne = 0d;
-            for (int i = 0; i < Cases; ++i)
+            return t;
+        }
+        // Calculer l'ecart type dans l'intervalle selectionné
+        public double CalculeEcart(double Moy)
+        {
+            int n = Convert.ToInt32(NUD_b.Value - NUD_a.Value);
+
+            // Tableau de n valeurs de x
+            double[] x = ValeurYSelonXFonction(n + 1);
+            double totalsomme = 0;
+            for (int i = 0; i < n; ++i)
             {
-                Moyenne += t[i];
+                totalsomme += Math.Pow(x[i] - Moy, 2);
             }
-            Moyenne = Moyenne / Cases;
-            return Moyenne;
+            double ecart = totalsomme / (n - 1);
+            return ecart;
         }
         #endregion
 
