@@ -71,12 +71,18 @@ namespace PFI3
             NUD_a.Maximum = NUD_b.Value;
             Calculer();
         }
+        private void NUD_IC_ValueChanged(object sender, EventArgs e)
+        {
+            Calculer();
+        }
+
         // Update les Labels proportions, Marge d'erreur et Interval de Confiance
         private void Calculer()
         {
             LAB_p.Text = Estimer();
             LAB_Me.Text = CalculerME();
             LAB_IC.Text = CalculeIC();
+            Draw();
         }
 
         #region Calculer aire rectangle
@@ -104,7 +110,7 @@ namespace PFI3
         //TODO VÉRIFIER
         #region Calcule pour les options 1 à 5
         // retourne si le point en paramètre en à l'extérieur ou à l'intérieur de la fonction 1
-        public double CalculeOpt1(int x)
+        public double CalculeOpt1(double x)
         {
             // Pow(x,y) est l'équivalent d'un exposant, x étant le nombre à calculer, y étant l'exposant
             // Ici nous faisons l'équivalent d'une ³√ en faisant x^1/3
@@ -112,27 +118,32 @@ namespace PFI3
             // (Math.Pow((Math.Pow(x,2d) -16d * x + 63d),(1d/3d)) *-1) +4d
             double a1 = Math.Pow(x, 2d);
             double a2 = -16d * x;
-            double a3 = a1 + a2; 
+            double a3 = a1 + a2;
             double a4 = a3 + 63d;
-            double a5 = Math.Pow(a4, (1d/3d));
+            //double a5 = Math.Pow(a4, (1d / 3d));
+            double a5;
+            if (a4 < 0)
+                a5 = -Math.Pow(Math.Abs(a4), (1d / 3d));
+            else
+                a5 = Math.Pow(a4, (1d / 3d));
             double a6 = a5 * -1d;
             double a7 = a6 + 4d;
-            
+
             return a7;
         }
-        public double CalculeOpt2(int x)
+        public double CalculeOpt2(double x)
         {
             return 3d * Math.Pow(((x - 7d) / 5d), 5d) - 5d * Math.Pow(((x - 7d) / 5d), 3d) + 3d;
         }
-        public double CalculeOpt3(int x)
+        public double CalculeOpt3(double x)
         {
             return -1d * (1d / 3d) * Math.Pow((x - 6d), 2d) + 12d;
         }
-        public double CalculeOpt4(int x)
+        public double CalculeOpt4(double x)
         {
             return x + Math.Sin(x);
         }
-        public double CalculeOpt5(int x)
+        public double CalculeOpt5(double x)
         {
             return Math.Cos(x) + 3d;
         }
@@ -195,36 +206,17 @@ namespace PFI3
             double n = Points.NB_MAXIMUM_POINTS;
 
             double Marge = Z * Math.Sqrt((p * (1 - p)) / n);
+            String[] m = Marge.ToString().Split(',');
+            // faire en sorte que la Marge est seulement 4 chiffres après la virgule
+            if (m.Length > 1)
+            {
+                m[1] = m[1].Remove(4);
+                Marge = Convert.ToDouble(m[0] + "," + m[1]);
+            }
+            
+            
             ME = Marge;
             return Marge.ToString();
-        }
-        //Retourne un tableau de valeurs de y selon x dans la fonction selectionnée (Pas trouver de meilleur nom)
-        private double[] ValeurYSelonXFonction(int NbCases){
-            double[] t = new double[NbCases];
-            int pos = 0;
-            for (int i = Convert.ToInt32(NUD_a.Value); i <= Convert.ToInt32(NUD_b.Value); ++i)
-            {
-                switch (_optionChoisis)
-                {
-                    case 1:
-                        t[pos] = CalculeOpt1(i);
-                        break;
-                    case 2:
-                        t[pos] = CalculeOpt2(i);
-                        break;
-                    case 3:
-                        t[pos] = CalculeOpt3(i);
-                        break;
-                    case 4:
-                        t[pos] = CalculeOpt4(i);
-                        break;
-                    case 5:
-                        t[pos] = CalculeOpt5(i);
-                        break;
-                }
-                ++pos;
-            }
-            return t;
         }
         #endregion
 
@@ -258,9 +250,152 @@ namespace PFI3
         }
         #endregion
 
-        private void NUD_IC_ValueChanged(object sender, EventArgs e)
+        #region Graph
+        private RectangleF rect;
+        private int Bottom;
+        private int Left;
+        private int MarkerDistanceY;
+        private int MarkerDistanceX;
+        private bool GT5 = false;
+        private PointF[] res = new PointF[56];
+
+        private int DISTANCEAXIS = 15;
+        private int MARKERLENGTH;
+        // dessine le graphique
+        private void Draw()
         {
-            Calculer();
+            Panel PB = PB_Graph;
+            Graphics DC = PB.CreateGraphics();
+            DC.Clear(this.BackColor);
+            DrawAxes(DC);
+            for (int x = 0; x <= 55; ++x)
+            {
+                switch (_optionChoisis)
+                {
+                    case 1:
+                        res[x] = new PointF(Left + (x / 5f * MarkerDistanceX), Bottom - ((float)CalculeOpt1(x / 5d) * MarkerDistanceY));
+                        break;
+                    case 2:
+                        res[x] = new PointF(Left + (x / 5f * MarkerDistanceX), Bottom - ((float)CalculeOpt2(x / 5d) * MarkerDistanceY));
+                        break;
+                    case 3:
+                        res[x] = new PointF(Left + (x / 5f * MarkerDistanceX), Bottom - ((float)CalculeOpt3(x / 5d) * MarkerDistanceY));
+                        break;
+                    case 4:
+                        res[x] = new PointF(Left + (x / 5f * MarkerDistanceX), Bottom - ((float)CalculeOpt4(x / 5d) * MarkerDistanceY));
+                        break;
+                    case 5:
+                        res[x] = new PointF(Left + (x / 5f * MarkerDistanceX), Bottom - ((float)CalculeOpt5(x / 5d) * MarkerDistanceY));
+                        break;
+                }
+            }
+            DrawFunction(DC, res);
+            DrawBox(DC);
+        }
+        // dessine la fonction selectionnée
+        private void DrawFunction(Graphics DC, PointF[] p)
+        {
+            DC.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            DC.DrawLines(new Pen(Color.Black), p);
+        }
+        // Dessine la boite selectionné (ou le calcule sera fait)
+        private void DrawBox(Graphics DC)
+        {
+            Pen pen = new Pen(Color.Red);
+            int Min = Convert.ToInt32(NUD_a.Value);
+            int Max = Convert.ToInt32(NUD_b.Value);
+
+            PointF[] p = new PointF[5];
+
+            if (GT5)
+                p[0] = new PointF(Min * MarkerDistanceX + DISTANCEAXIS, _yMax * (MarkerDistanceY / 2));
+            else
+                p[0] = new PointF(Min * MarkerDistanceX + DISTANCEAXIS, _yMax * (MarkerDistanceY));
+            p[1] = new PointF(Min * MarkerDistanceX + DISTANCEAXIS, Bottom);
+            p[2] = new PointF(Max * MarkerDistanceX + DISTANCEAXIS, Bottom);
+            if (GT5)
+                p[3] = new PointF(Max * MarkerDistanceX + DISTANCEAXIS, _yMax * (MarkerDistanceY / 2));
+            else
+                p[3] = new PointF(Max * MarkerDistanceX + DISTANCEAXIS, _yMax * (MarkerDistanceY));
+            p[4] = p[0];
+
+            DC.DrawLines(pen, p);
+        }
+        // Dessine les axes du graphique
+        private void DrawAxes(Graphics DC)
+        {
+            #region VariablesDeclaration
+            Pen pen = new Pen(Color.Black, 1);
+            RectangleF rect = DC.VisibleClipBounds;
+
+            this.rect = rect;
+
+            Font f = this.Font;
+            bool GT5 = false;
+            Brush b = new SolidBrush(Color.Black);
+
+            int Bottom = Convert.ToInt32(rect.Bottom - DISTANCEAXIS);
+            int Left = Convert.ToInt32(rect.Left + DISTANCEAXIS);
+
+            this.Bottom = Bottom;
+            this.Left = Left;
+
+            int YMax = Convert.ToInt32(LAB_YMax.Text);
+            if (YMax > 5)
+            {
+                GT5 = true;
+                this.GT5 = GT5;
+                if (YMax % 2 > 0)
+                    YMax += 1;
+            }
+            if (YMax > 10)
+                DISTANCEAXIS = 18;
+
+            MARKERLENGTH = DISTANCEAXIS / 5;
+
+            int markerDistance = Convert.ToInt32(Bottom / YMax - 1);
+            this.MarkerDistanceY = markerDistance;
+            #endregion
+
+            // Draw Main axis
+            DC.DrawLine(pen, Left, rect.Y, Left, Bottom);
+            DC.DrawLine(pen, Left, Bottom, rect.Right, Bottom);
+
+            //Draw Markers Y Axis
+            for (int i = 0; i <= YMax; ++i)
+            {
+                if (GT5)
+                {
+                    if (i % 2 == 0)
+                    {
+                        DC.DrawString(i.ToString(), f, b, new PointF(Left - TextRenderer.MeasureText(i.ToString(), f).Width, Bottom - (i * markerDistance) - DISTANCEAXIS / 2));
+                        if (i != 0)
+                            DC.DrawLine(pen, Left - MARKERLENGTH, Bottom - (i * markerDistance), Left + MARKERLENGTH, Bottom - (i * markerDistance));
+                    }
+                }
+                else
+                {
+                    DC.DrawString(i.ToString(), f, b, new PointF(Left - TextRenderer.MeasureText(i.ToString(), f).Width, Bottom - (i * markerDistance) - DISTANCEAXIS / 2));
+                    if (i != 0)
+                        DC.DrawLine(pen, Left - MARKERLENGTH, Bottom - (i * markerDistance), Left + MARKERLENGTH, Bottom - (i * markerDistance));
+                }
+            }
+            //Draw Markers X Axis
+            markerDistance = Convert.ToInt32(rect.Right / 11 - 2);
+            this.MarkerDistanceX = markerDistance;
+            for (int i = 0; i <= 11; ++i)
+            {
+                Size StringSize = TextRenderer.MeasureText(i.ToString(), f);
+                DC.DrawString(i.ToString(), f, b, new PointF(Left + (i * markerDistance) - StringSize.Width / 2 + 1, Bottom + StringSize.Height / 3));
+                if (i != 0)
+                    DC.DrawLine(pen, Left + (i * markerDistance), Bottom - MARKERLENGTH, Left + (i * markerDistance), Bottom + MARKERLENGTH);
+            }
+        }
+        #endregion
+
+        private void PB_Graph_Paint(object sender, PaintEventArgs e)
+        {
+            Draw();
         }
     }
 }

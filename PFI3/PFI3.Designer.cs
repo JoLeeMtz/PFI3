@@ -37,7 +37,6 @@
             this.BTN_CalculerAire = new System.Windows.Forms.Button();
             this.NUD_a = new System.Windows.Forms.NumericUpDown();
             this.NUD_b = new System.Windows.Forms.NumericUpDown();
-            this.PB_Graph = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.LAB_p = new System.Windows.Forms.Label();
             this.LAB_YMax = new System.Windows.Forms.Label();
@@ -47,9 +46,9 @@
             this.LAB_IC = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.NUD_IC = new System.Windows.Forms.NumericUpDown();
+            this.PB_Graph = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Graph)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IC)).BeginInit();
             this.SuspendLayout();
             // 
@@ -149,19 +148,11 @@
             0});
             this.NUD_b.ValueChanged += new System.EventHandler(this.NUD_b_ValueChanged);
             // 
-            // PB_Graph
-            // 
-            this.PB_Graph.Location = new System.Drawing.Point(159, 12);
-            this.PB_Graph.Name = "PB_Graph";
-            this.PB_Graph.Size = new System.Drawing.Size(215, 100);
-            this.PB_Graph.TabIndex = 7;
-            this.PB_Graph.TabStop = false;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(167, 134);
+            this.label6.Location = new System.Drawing.Point(157, 134);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 8;
@@ -170,7 +161,7 @@
             // LAB_p
             // 
             this.LAB_p.AutoSize = true;
-            this.LAB_p.Location = new System.Drawing.Point(208, 134);
+            this.LAB_p.Location = new System.Drawing.Point(198, 134);
             this.LAB_p.Name = "LAB_p";
             this.LAB_p.Size = new System.Drawing.Size(0, 13);
             this.LAB_p.TabIndex = 9;
@@ -187,7 +178,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(167, 149);
+            this.label7.Location = new System.Drawing.Point(157, 149);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 13);
             this.label7.TabIndex = 11;
@@ -196,7 +187,7 @@
             // LAB_Me
             // 
             this.LAB_Me.AutoSize = true;
-            this.LAB_Me.Location = new System.Drawing.Point(208, 149);
+            this.LAB_Me.Location = new System.Drawing.Point(198, 149);
             this.LAB_Me.Name = "LAB_Me";
             this.LAB_Me.Size = new System.Drawing.Size(0, 13);
             this.LAB_Me.TabIndex = 11;
@@ -204,7 +195,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(167, 164);
+            this.label9.Location = new System.Drawing.Point(157, 164);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(23, 13);
             this.label9.TabIndex = 11;
@@ -213,7 +204,7 @@
             // LAB_IC
             // 
             this.LAB_IC.AutoSize = true;
-            this.LAB_IC.Location = new System.Drawing.Point(208, 164);
+            this.LAB_IC.Location = new System.Drawing.Point(198, 164);
             this.LAB_IC.Name = "LAB_IC";
             this.LAB_IC.Size = new System.Drawing.Size(0, 13);
             this.LAB_IC.TabIndex = 11;
@@ -241,11 +232,20 @@
             131072});
             this.NUD_IC.ValueChanged += new System.EventHandler(this.NUD_IC_ValueChanged);
             // 
+            // PB_Graph
+            // 
+            this.PB_Graph.Location = new System.Drawing.Point(152, 12);
+            this.PB_Graph.Name = "PB_Graph";
+            this.PB_Graph.Size = new System.Drawing.Size(222, 112);
+            this.PB_Graph.TabIndex = 14;
+            this.PB_Graph.Paint += new System.Windows.Forms.PaintEventHandler(this.PB_Graph_Paint);
+            // 
             // PFI3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 215);
+            this.Controls.Add(this.PB_Graph);
             this.Controls.Add(this.NUD_IC);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.LAB_IC);
@@ -255,7 +255,6 @@
             this.Controls.Add(this.LAB_YMax);
             this.Controls.Add(this.LAB_p);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.PB_Graph);
             this.Controls.Add(this.NUD_b);
             this.Controls.Add(this.NUD_a);
             this.Controls.Add(this.BTN_CalculerAire);
@@ -270,7 +269,6 @@
             this.Load += new System.EventHandler(this.PFI3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_a)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_b)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Graph)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IC)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -288,7 +286,6 @@
         private System.Windows.Forms.Button BTN_CalculerAire;
         private System.Windows.Forms.NumericUpDown NUD_a;
         private System.Windows.Forms.NumericUpDown NUD_b;
-        private System.Windows.Forms.PictureBox PB_Graph;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label LAB_p;
         private System.Windows.Forms.Label LAB_YMax;
@@ -298,6 +295,7 @@
         private System.Windows.Forms.Label LAB_IC;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown NUD_IC;
+        private System.Windows.Forms.Panel PB_Graph;
     }
 }
 
