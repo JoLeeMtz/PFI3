@@ -90,7 +90,8 @@ namespace PFI3
                     }
                 }
             }
-            String Z = pos[0].ToString() + "," + pos[1].ToString();
+            String Z = pos[0].ToString() + pos[1].ToString();
+            Z = Z.Insert(1, ",");
             return Convert.ToDouble(Z);
         }
     }

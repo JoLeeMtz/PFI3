@@ -187,34 +187,16 @@ namespace PFI3
         #endregion
 
         #region Calculer la marge d'erreur
+        // Calcule la marge d'erreur
         public String CalculerME()
         {
-            // TODO
-            // Calculer la moyenne
-            double Moyenne = CalculeMoyenne();
-            // Calculer l'écart type
-            // (s = √ (Σ(x - moyenne)² * f)/n)
-            double ecart = CalculeEcart(Moyenne);
-            //Calculer Z    
-            // Le z du tableau de loi normale
-            double z = LoiNormale.GetZ(Convert.ToDouble(NUD_IC.Value) / 100d);
-            // Le pourcentage de l'aire totale sous la courbe
-            double p = Proportion / 100d;
-            ME = Math.Abs(z * (ecart / Math.Sqrt(p)));
-            return ME.ToString();
-        }
-        // Calculer la moyenne dans l'intervalle selectionné
-        public double CalculeMoyenne()
-        {
-            int Cases = Convert.ToInt32(NUD_b.Value - NUD_a.Value) + 1;
-            double[] t = ValeurYSelonXFonction(Cases);
-            double Moyenne = 0d;
-            for (int i = 0; i < Cases; ++i)
-            {
-                Moyenne += t[i];
-            }
-            Moyenne = Moyenne / Cases;
-            return Moyenne;
+            double Z = LoiNormale.GetZ((Convert.ToInt32(NUD_IC.Value) / 2f) / 100f);
+            double p = Proportion / 100;
+            double n = Points.NB_MAXIMUM_POINTS;
+
+            double Marge = Z * Math.Sqrt((p * (1 - p)) / n);
+            ME = Marge;
+            return Marge.ToString();
         }
         //Retourne un tableau de valeurs de y selon x dans la fonction selectionnée (Pas trouver de meilleur nom)
         private double[] ValeurYSelonXFonction(int NbCases){
@@ -244,32 +226,41 @@ namespace PFI3
             }
             return t;
         }
-        // Calculer l'ecart type dans l'intervalle selectionné
-        public double CalculeEcart(double Moy)
-        {
-            int n = Convert.ToInt32(NUD_b.Value - NUD_a.Value);
-
-            // Tableau de n valeurs de x
-            double[] x = ValeurYSelonXFonction(n + 1);
-            double totalsomme = 0;
-            for (int i = 0; i < n; ++i)
-            {
-                totalsomme += Math.Pow(x[i] - Moy, 2);
-            }
-            double ecart = totalsomme / (n - 1);
-            return ecart;
-        }
         #endregion
 
         #region Calcule Interval de Confiance
         // Calcule l'interval de confiance selon la proportion estimée et la marge d'erreur
         public String CalculeIC()
         {
-            double proportion = Convert.ToDouble(Proportion);
-            double Marge = Convert.ToDouble(ME);
-            IC = "[" + (proportion - Marge).ToString() + ";" + (proportion + Marge).ToString() + "]";
+            double proportion = Convert.ToDouble(Proportion / 100d);
+            float Marge = float.Parse(ME.ToString());
+
+            // Pour avoir seulement 2 chiffres après la virgule
+            String[] Minimum = ((proportion - Marge) * 100f).ToString().Split(',');
+            if (Minimum.Length > 1)
+                Minimum[1] = Minimum[1].Remove(2);
+            String[] Maximum = ((proportion + Marge) * 100f).ToString().Split(',');
+            if (Maximum.Length > 1)
+                Maximum[1] = Maximum[1].Remove(2);
+
+            // Dans le cas que Plus petite valeur Intervalle ou plus Grande == 0
+            if (Minimum.Length > 1 && Maximum.Length > 1)
+                IC = "[" + Minimum[0] + "," + Minimum[1] + "% ; " + Maximum[0] + "," + Maximum[1] + "%]";
+            else if (Minimum.Length > 1 && Maximum.Length == 1)
+                IC = "[" + Minimum[0] + "," + Minimum[1] + "% ; " + Maximum[0] + "%]";
+            else if (Minimum.Length == 1 && Maximum.Length > 1)
+                IC = "[" + Minimum[0] + "% ; " + Maximum[0] + "," + Maximum[1] + "%]";
+            else
+                IC = "[" + Minimum[0] + "% ; " + Maximum[0] + "%]";
+
+
             return IC;
         }
         #endregion
+
+        private void NUD_IC_ValueChanged(object sender, EventArgs e)
+        {
+            Calculer();
+        }
     }
 }

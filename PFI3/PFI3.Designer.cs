@@ -239,6 +239,7 @@
             0,
             0,
             131072});
+            this.NUD_IC.ValueChanged += new System.EventHandler(this.NUD_IC_ValueChanged);
             // 
             // PFI3
             // 
